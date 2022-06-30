@@ -83,6 +83,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.text.NumberFormat;
 import java.util.Collection;
 import java.util.Collections;
@@ -665,13 +667,16 @@ public class AnalysisMonitor implements IAnalysisMonitoring {
             log.info(b);
         }
 
-        if (Options.get().isCallGraphEnabled()) {
-            log.info(callgraph.toString());
-            File outdir = new File("out");
+        if (Options.get().isCallGraphEnabled() != null) {
+            Path callGraphLocation = Paths.get(Options.get().isCallGraphEnabled());
+            String outputDirectory = callGraphLocation.getParent().toString();
+            String outputFile = callGraphLocation.getFileName().toString();
+            log.info(callgraph);
+            File outdir = new File(outputDirectory);
             if (!outdir.exists()) {
                 outdir.mkdir();
             }
-            String filename = "out" + File.separator + "callgraph.dot";
+            String filename = outputDirectory + File.separator + outputFile;
             try (FileWriter f = new FileWriter(filename)) {
                 log.info("Writing call graph to " + filename);
                 callgraph.toDot(new PrintWriter(f));

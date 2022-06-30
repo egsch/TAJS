@@ -104,7 +104,7 @@ public class OptionValues {
     private boolean flowgraph;
 
     @Option(name = "-callgraph", usage = "Output callgraph.dot")
-    private boolean callgraph;
+    private String callgraph;
 
     @Option(name = "-debug", usage = "Output debug information")
     private boolean debug;
@@ -402,7 +402,7 @@ public class OptionValues {
         result = 31 * result + (unsoundnessString != null ? unsoundnessString.hashCode() : 0);
         result = 31 * result + (unsoundness != null ? unsoundness.hashCode() : 0);
         result = 31 * result + (flowgraph ? 1 : 0);
-        result = 31 * result + (callgraph ? 1 : 0);
+        result = 31 * result + (callgraph != null ? callgraph.hashCode() : 0);
         result = 31 * result + (debug ? 1 : 0);
         result = 31 * result + (showVariableInfo ? 1 : 0);
         result = 31 * result + (newflow ? 1 : 0);
@@ -576,7 +576,7 @@ public class OptionValues {
     }
 
     public void disableCallgraph() {
-        callgraph = false;
+        callgraph = null;
     }
 
     public void disableShowVariableInfo() {
@@ -743,7 +743,7 @@ public class OptionValues {
     }
 
     public void enableCallgraph() {
-        callgraph = true;
+        callgraph = "out/callgraph.dot";
     }
 
     public void enableShowVariableInfo() {
@@ -940,7 +940,7 @@ public class OptionValues {
         return alwaysCanput;
     }
 
-    public boolean isCallGraphEnabled() {
+    public String isCallGraphEnabled() {
         return callgraph;
     }
 
